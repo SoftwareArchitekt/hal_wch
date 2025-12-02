@@ -34,6 +34,7 @@
 		For UART printf, on:
 			CH32V003, Port D5, 115200 8n1
 			CH32V203, Port A9, 115200 8n1
+			CH32V417, Port B15,115200 8n1
 
 		Modifications can be made to SetupUart, or your own version as desired.
 
@@ -85,7 +86,7 @@
 */
 
 // Sanity check for when porting old code.
-#if defined(CH32V10x) || defined(CH32V20x) || defined(CH32V30x) || defined(CH32X03x)
+#if defined(CH32V10x) || defined(CH32V20x) || defined(CH32V30x) || defined(CH32X03x) || defined(CH32X41x)
 	#if defined(CH32V003)
 		#error Cannot define CH32V003 and another arch.
 	#endif
@@ -166,6 +167,8 @@
 		#define HSE_VALUE				  (8000000)
 	#elif defined(CH57x) || defined(CH58x) || defined(CH59x)
 		#define HSE_VALUE				  (32000000)
+    #elif defined(CH32X41x)
+        #define HSE_VALUE				  (25000000)
 	#endif
 #endif
 
@@ -181,6 +184,8 @@
 		#define HSI_VALUE					(8000000)
 	#elif defined(CH32V30x)
 		#define HSI_VALUE					(8000000)
+    #elif defined(CH32X41x)
+		#define HSI_VALUE					(25000000)
 	#endif
 #endif
 
@@ -200,6 +205,8 @@
 			#define FUNCONF_PLL_MULTIPLIER 18	// Default: 8 * 18 = 144 MHz
 		#elif defined(CH32V30x)
 			#define FUNCONF_PLL_MULTIPLIER 18	// Default: 8 * 18 = 144 MHz
+		#elif defined(CH32V41x)
+			#define FUNCONF_PLL_MULTIPLIER 16	// Default: 25 * 16 = 400 MHz
 		#else // CH32V003
 			#define FUNCONF_PLL_MULTIPLIER 2	// Default: 24 * 2 = 48 MHz
 		#endif
@@ -362,6 +369,8 @@ typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;
 	#include "ch32v20xhw.h"
 #elif defined( CH32V30x )
 	#include "ch32v30xhw.h"
+#elif defined( CH32V41x )
+	#include "ch32v41xhw.h"
 #elif defined( CH57x )
 	#include "ch57xhw.h"
 #elif defined( CH58x )
